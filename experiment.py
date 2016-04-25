@@ -23,6 +23,8 @@ for _ in range(numExperiments):
 
         env.playGame(gameCount)
         gameCount += 1
+
+    "Delete the observe object in the agent"
     AG.episodeEnd()
     print "\n"
     print "Agent capital = ", AG.Observe.capital

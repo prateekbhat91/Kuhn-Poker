@@ -6,12 +6,14 @@ Created on 04/24/2016
 @desc       : Define the Algorithms for Kuhn Poker
 @version    : uses Python 2.7
 """
+"Import libraries"
 import random
 
+"Import modules created"
 import Agent as AG
 import environment as env
 
-"Parameters"
+"Parameters of the game"
 alpha = 0.1
 gamma = 0.9
 Lambda = 0.9
@@ -42,9 +44,6 @@ def selectMaxAction(state):
     # raw_input()
     return cardList
 
-# def env_observe(opponentCard, firstaction, secondaction, thirdaction,reward):
-
-    # tdError = reward + gamma *
 
 def calculate_dist(state):
     card_list = []
@@ -62,7 +61,7 @@ def calculate_dist(state):
         card_list.append((card,value))
 
     return  card_list
-    # Qvalue[]
+
 
 def distribution(state):
     tempCards = []
@@ -98,6 +97,7 @@ def update(nextCard):
     state = (capital,observe.lastCard)
     nextState = (observe.capital,nextCard)
 
+    "When the opponent folds and the card is not shown we guess about what card the opponent might have"
     if observe.opponentCard == None:
         if observe.lastCard == "A":
             if random.random() > 0.5:
@@ -121,9 +121,11 @@ def update(nextCard):
     # print "\n"
     # raw_input()
 
+    "Incremetn the count of that "
     AG.Qvalue[state][observe.opponentCard]["count"] += 1
     prob_dist = distribution(nextState)
 
+    "Calculate the TD Error"
     tdError = observe.reward + (gamma * prob_dist - AG.Qvalue[state][observe.selectedCard][observe.actionSequence])
 
     # print "Regarding ET"
@@ -131,9 +133,13 @@ def update(nextCard):
     # print "State = ", state
     # print "Selected card = ", observe.selectedCard
 
+    "Set default values in Eligibility traces"
     AG.setDefaultET((state,observe.selectedCard))
+
+    "Update the Eligibility traces using Dutch traces"
     AG.eligibilityTraces[(state,observe.selectedCard)][observe.actionSequence] = (1-alpha)*AG.eligibilityTraces[(state,observe.selectedCard)][observe.actionSequence] +1
-    # AG.eligibilityTraces[(state, observe.selectedCard)][observe.actionSequence] += 1
+
+    " Expected SARSA Update"
     for state in AG.Qvalue.keys():
         for currCard in AG.Qvalue[state]:
             for action in AG.Qvalue[state][currCard]:

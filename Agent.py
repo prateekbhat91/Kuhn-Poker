@@ -6,15 +6,30 @@ Created on 04/13/2016
 @desc       : Define the Agent for Kuhn Poker
 @version    : uses Python 2.7
 """
+
 from __future__ import division
+"Import libraries"
 import random
 from collections import defaultdict
 import operator
 import math
 
+"Import modules created"
 import environment as env
 
+"Parameters for the game"
+epsilon = 0.1
+alpha = 0.1
+gamma = 0.9
+Lambda = 0.9
+
+"An object of this class will handle all te observations in the game like" \
+"the capital on whihc the agent started the game, the reward obtained, action sequence played in the game" \
+"the bet amount by the agent during the whole game, the oppoent card if it was shown otherwise None, " \
+"the selected card during the decision of the max action selection "
+
 class observation(object):
+
     def __init__(self):
         self.capital = 0
         self.reward = 0
@@ -42,40 +57,43 @@ class observation(object):
     def setCapital(self,amount):
         self.capital = amount
 
-
+"Careate an observe object"
 Observe = observation()
 
+"Delete the observe object after the end of each experiment"
 def episodeEnd():
     Observe.delete()
-
-"Parameters"
-epsilon = 0.1
-alpha = 0.1
-gamma = 0.9
-Lambda = 0.9
 
 "Possible action sequences"
 possibleActions = [("pass","pass",None),("bet","bet",None),("bet","pass",None),("pass","bet","pass"),("pass","bet","bet")]
 
 
-"Q-value for eac state action pair"
+"Q-value for each state action pair in the form " \
+"{(capital, card in hand): opponent card {count:, possible action sequence: } }"
 Qvalue = defaultdict(dict)
 
-"Eligibility traces"
+"Eligibility traces in the form" \
+"{ ( (capital,card in hand) , probable opponent card):{ possible action sequence: } }"
 eligibilityTraces = defaultdict(dict)
 
 "Actions available"
 actionAvailable = ["bet", "pass"]
 
+"Set the initial capital to begin with"
 def initialCapital(initialMoney):
     Observe.setCapital(initialMoney)
 
-
+"Initialize the card in the beginning of each game"
 def cardInit():
     global card
     card = None
 
-"To set the default value in a dictionary"
+"Initialize eligibility traces"
+def etInit():
+    eligibilityTraces = defaultdict(dict)
+
+
+"To set the default value of Qvalues"
 def setDefaultQvalue(money, Card):
     global card
     for cards in list(set(env.cardsAvailable) - set(card)):
@@ -85,6 +103,8 @@ def setDefaultQvalue(money, Card):
             Qvalue[(money, Card)][cards].setdefault(possActions,0)
     # print "Qvalue in set default = ", Qvalue
 
+
+"To set the default value of Eligibility Traces"
 def setDefaultET(state):
     for actions in possibleActions:
         eligibilityTraces[state].setdefault(actions,0)
@@ -151,10 +171,8 @@ def chooseEgreedyaction(state,turn):
     return greedyAction,greedyCard
 
 
-"Initialize eligibility traces"
-def etInit():
-    eligibilityTraces = defaultdict(dict)
 
+"Returns the action taken and bet placed if any depending on the turn of the agent"
 def takeAction(minBet,turn):
     global card
 

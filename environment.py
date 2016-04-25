@@ -103,17 +103,15 @@ def playGame(gameCount):
         thirdbetAmount = 0
 
     pot += (firstbetAmount+secondbetAmount+thirdbetAmount)
+
     print "Agent card = ", AG.card
     print "Opponent card = ", OP.card
     print "First Action = ", firstAction
     print "Second Action = ", secondAction
     print "Third Action = ", thirdAction
+
     reward,show = showDown(firstAction,secondAction, thirdAction, AG.card , OP.card )
-    # raw_input()
-    # First = firstAction
-    # Second = secondAction
-    # Third = thirdAction
-    # Reward = reward
+
     Opp_card = OP.card if show == True else None
     AG.Observe.updateObservation(reward,(firstAction,secondAction,thirdAction),firstbetAmount+thirdbetAmount+minBet,Opp_card,AG.card)
 
