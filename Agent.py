@@ -97,7 +97,8 @@ def etInit():
 def setDefaultQvalue(money, Card):
     global card
     for cards in list(set(env.cardsAvailable) - set(card)):
-        Qvalue[(money,Card)][cards]=defaultdict(dict)
+        if cards not in Qvalue[(money,Card)].keys():
+            Qvalue[(money,Card)][cards]=defaultdict(dict)
         Qvalue[(money, Card)][cards].setdefault("count",0)
         for possActions in possibleActions:
             Qvalue[(money, Card)][cards].setdefault(possActions,0)

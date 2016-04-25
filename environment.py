@@ -65,7 +65,7 @@ def showDown(first, second, third, agentCard, opponentCard):
         OP.capital += pot
         reward = 0
 
-    print "Winner = ",winner
+    # print "Winner = ",winner
     return  reward,show
 
 "Play a round"
@@ -104,14 +104,15 @@ def playGame(gameCount):
 
     pot += (firstbetAmount+secondbetAmount+thirdbetAmount)
 
-    print "Agent card = ", AG.card
-    print "Opponent card = ", OP.card
-    print "First Action = ", firstAction
-    print "Second Action = ", secondAction
-    print "Third Action = ", thirdAction
+    # print "Agent card = ", AG.card
+    # print "Opponent card = ", OP.card
+    # print "First Action = ", firstAction
+    # print "Second Action = ", secondAction
+    # print "Third Action = ", thirdAction
+
 
     reward,show = showDown(firstAction,secondAction, thirdAction, AG.card , OP.card )
-
+    # raw_input()
     Opp_card = OP.card if show == True else None
     AG.Observe.updateObservation(reward,(firstAction,secondAction,thirdAction),firstbetAmount+thirdbetAmount+minBet,Opp_card,AG.card)
 

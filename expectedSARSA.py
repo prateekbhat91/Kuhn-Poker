@@ -121,7 +121,7 @@ def update(nextCard):
     # print "\n"
     # raw_input()
 
-    "Incremetn the count of that "
+    "Increment the count"
     AG.Qvalue[state][observe.opponentCard]["count"] += 1
     prob_dist = distribution(nextState)
 
