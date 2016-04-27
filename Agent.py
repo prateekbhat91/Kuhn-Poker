@@ -18,7 +18,7 @@ import math
 import environment as env
 
 "Parameters for the game"
-epsilon = 0.1
+epsilon = 0.01
 alpha = 0.1
 gamma = 0.9
 Lambda = 0.9

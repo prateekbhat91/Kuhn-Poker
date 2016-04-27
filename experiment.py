@@ -26,7 +26,8 @@ def main(link):
     initialCapital = 100
 
     numExperiments = 10000
-
+    agentWins = 0
+    opponentWins = 0
     for i in range(numExperiments):
         "Initialize agent and opponent"
         AG.initialCapital(initialCapital)
@@ -40,15 +41,23 @@ def main(link):
             env.playGame(gameCount)
             gameCount += 1
 
-
-        "Delete the observe object in the agent"
-        AG.episodeEnd()
-
         print "Done with",i+1, "experiment"
 
-        # print "\n"
+
         # print "Agent capital = ", AG.Observe.capital
         # print "Oponent captital = ", OP.capital
+        if AG.Observe.capital > OP.capital:
+            agentWins += 1
+        else:
+            opponentWins += 1
+
+        print "Opponent wins = ", opponentWins
+        print "Agent Wins = ", agentWins
+        print "\n"
+
+	"Delete the observe object in the agent"
+        AG.episodeEnd()
+
         # print "Qvalue = ", AG.Qvalue
         # raw_input()
 

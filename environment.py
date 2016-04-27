@@ -60,7 +60,13 @@ def showDown(first, second, third, agentCard, opponentCard):
 
     if winner == "agent":
         AG.Observe.capital += pot
-        reward = 1
+        if pot<5:
+            reward = 0.6
+        elif pot < 7:
+            reward = 0.8
+        else:
+            reward = 1
+
     else:
         OP.capital += pot
         reward = 0
