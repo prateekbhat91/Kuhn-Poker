@@ -69,7 +69,13 @@ def showDown(first, second, third, agentCard, opponentCard):
 
     else:
         OP.capital += pot
-        reward = 0
+        # reward=0
+        if pot < 5:
+            reward = 0
+        elif pot < 7:
+            reward = -0.4
+        else:
+            reward = -0.6
 
     # print "Winner = ",winner
     return  reward,show
@@ -95,15 +101,19 @@ def playGame(gameCount):
     AG.Observe.capital -= minBet
     OP.capital -= minBet
 
-
+    if AG.Observe.capital < 0 or OP.capital < 0: return
 
 
     "First action by agent"
     firstAction, firstbetAmount = AG.takeAction(minBet,1)
+    if AG.Observe.capital < 0 or OP.capital < 0: return
+
     secondAction, secondbetAmount = OP.takeFirstAction(minBet, firstAction)
+    if AG.Observe.capital < 0 or OP.capital < 0: return
 
     if firstAction == "pass" and secondAction == "bet":
         thirdAction, thirdbetAmount = AG.takeAction(minBet,2)
+        if AG.Observe.capital < 0 or OP.capital < 0:return
     else:
         thirdAction = None
         thirdbetAmount = 0

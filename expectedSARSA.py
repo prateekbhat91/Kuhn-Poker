@@ -111,7 +111,7 @@ def update(nextCard):
 
 
 
-
+    AG.setDefaultQvalue(capital,observe.lastCard)
     # print "Start capital = ",capital
     # print "Capital after game play = ", observe.capital
     # print "state = ", state
@@ -122,6 +122,10 @@ def update(nextCard):
     # raw_input()
 
     "Increment the count"
+    # print "Qvalue = ", AG.Qvalue
+    # print "State = ", state
+    # print "Opp card observed = ", observe.opponentCard
+    # print "\n"
     AG.Qvalue[state][observe.opponentCard]["count"] += 1
     prob_dist = distribution(nextState)
 

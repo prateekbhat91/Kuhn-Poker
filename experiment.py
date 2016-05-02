@@ -20,8 +20,8 @@ def main(link):
         with open(link, 'rb') as handle:
             AG.Qvalue = pickle.load(handle)
 
-    # print "Loaded Qvalue = ", AG.Qvalue
-    # raw_input()
+    print "Loaded Qvalue = ", AG.Qvalue
+    raw_input()
     "Initial capital to start with"
     initialCapital = 100
 

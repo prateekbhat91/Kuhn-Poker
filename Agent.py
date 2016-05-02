@@ -95,8 +95,8 @@ def etInit():
 
 "To set the default value of Qvalues"
 def setDefaultQvalue(money, Card):
-    global card
-    for cards in list(set(env.cardsAvailable) - set(card)):
+    # global card
+    for cards in list(set(env.cardsAvailable) - set(Card)):
         if cards not in Qvalue[(money,Card)].keys():
             Qvalue[(money,Card)][cards]=defaultdict(dict)
         Qvalue[(money, Card)][cards].setdefault("count",0)
