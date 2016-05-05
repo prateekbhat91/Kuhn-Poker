@@ -74,7 +74,11 @@ Qvalue = defaultdict(dict)
 
 "Eligibility traces in the form" \
 "{ ( (capital,card in hand) , probable opponent card):{ possible action sequence: } }"
-eligibilityTraces = defaultdict(dict)
+timeRecord = defaultdict(dict)
+
+
+"Model for state action pair"
+Model = defaultdict(dict)
 
 "Actions available"
 actionAvailable = ["bet", "pass"]
@@ -88,9 +92,12 @@ def cardInit():
     global card
     card = None
 
-"Initialize eligibility traces"
-def etInit():
-    eligibilityTraces = defaultdict(dict)
+# "Initialize eligibility traces"
+# def modelInit():
+#     Model = defaultdict(dict)
+
+# def TimeInit():
+#     timeRecord = defaultdict(dict)
 
 
 "To set the default value of Qvalues"
@@ -106,9 +113,22 @@ def setDefaultQvalue(money, Card):
 
 
 "To set the default value of Eligibility Traces"
-def setDefaultET(state):
-    for actions in possibleActions:
-        eligibilityTraces[state].setdefault(actions,0)
+def setDefaultTime(money,Card):
+    for cards in list(set(env.cardsAvailable) - set(Card)):
+        if cards not in timeRecord[(money,Card)].keys():
+            timeRecord[(money,Card)][cards]=defaultdict(dict)
+        for possActions in possibleActions:
+            timeRecord[(money, Card)][cards].setdefault(possActions,0)
+
+def setDefaultModel(state,oppCard,action):
+    if oppCard not in Model[state].keys():
+        Model[state][oppCard] = defaultdict()
+    Model[state][oppCard].setdefault(action,tuple)
+    # for cards in list(set(env.cardsAvailable) - set(Card)):
+    #     if cards not in Model[(money,Card)].keys():
+    #         Model[(money,Card)][cards]=defaultdict(dict)
+    #     for possActions in possibleActions:
+    #         Model[(money, Card)][cards].setdefault(possActions,(state,0))
 
 
 "Returns the action which has the highest Qvalue"
@@ -178,10 +198,11 @@ def takeAction(minBet,turn):
     global card
 
     setDefaultQvalue(Observe.capital,card)
+    # setDefaultModel(Observe.capital,card)
+    setDefaultTime(Observe.capital,card)
     action,Observe.selectedCard = chooseEgreedyaction((Observe.capital,card),turn)
     # print "\n Inside take Action"
     # print "Eligibility traces = ", eligibilityTraces
-    setDefaultET(((Observe.capital,card),Observe.selectedCard))
     # print "Eligibility traces after set default = ", eligibilityTraces
     # print "\n"
     if turn == 1:
@@ -197,7 +218,6 @@ def takeAction(minBet,turn):
         else:
             minBet = Observe.capital
             Observe.capital -= Observe.capital
-        setDefaultET(((Observe.capital, card), Observe.selectedCard))
     else:
         minBet = 0
 

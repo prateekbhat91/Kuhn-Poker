@@ -31,8 +31,7 @@ def main(link):
     for i in range(numExperiments):
         "Initialize agent and opponent"
         AG.initialCapital(initialCapital)
-        OP.initialCapital(initialCapital)
-        AG.etInit()
+        OP.initialCapital(initialCapital)    
         gameCount = 1
 
         "Agent and Opponent can only play a game of they have capital = minimum bet"

@@ -13,7 +13,7 @@ import math
 
 import Agent as AG
 import opponent as OP
-import expectedSARSA as ALGO
+import DynaQplus as ALGO
 
 
 "Deck of three cards"
