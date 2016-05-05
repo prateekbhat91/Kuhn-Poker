@@ -69,7 +69,12 @@ def showDown(first, second, third, agentCard, opponentCard):
 
     else:
         OP.capital += pot
-        reward = 0
+        if pot < 5:
+          reward = 0
+        elif pot < 7:
+            reward = -0.4
+        else:
+            reward = -0.6
 
     # print "Winner = ",winner
     return  reward,show
