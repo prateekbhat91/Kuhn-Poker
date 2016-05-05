@@ -51,9 +51,13 @@ def main(link):
         else:
             opponentWins += 1
 
-        print "Opponent wins = ", opponentWins
-        print "Agent Wins = ", agentWins
-        print "\n"
+        # print "Opponent wins = ", opponentWins
+        # print "Agent Wins = ", agentWins
+        # print "\n"
+
+        with open("outputDynaQ+.txt", "a") as f:
+            f.write("Episode = " + str(i + 1) + "\n" + "Opponent wins = " + str(opponentWins) + "\n" + "Agent wins = " + str(agentWins) + "\n" + "\n")
+        f.close()
 
 	"Delete the observe object in the agent"
         AG.episodeEnd()
